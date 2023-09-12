@@ -30,7 +30,7 @@ const Carousel = () => {
    return(
       <Link
         to={`/coins/${coin.id}`}
-        sx={{
+        style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -42,8 +42,8 @@ const Carousel = () => {
         <img
          src={coin?.image}
          alt={coin.name}
-         height="100"
-         style={{ marginBottom: 10 }}
+         height="80"
+         style={{ marginBottom: 10}}
         />
          <span>
           {coin?.symbol}
@@ -76,7 +76,7 @@ const Carousel = () => {
 
   return (
     <div
-      sx={{
+      style={{
         height: "60%",
         display: "flex",
         alignItems: "center",

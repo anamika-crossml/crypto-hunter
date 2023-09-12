@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { HistoricalChart } from "../config/api";
+import { HistoricalChart } from "../../config/api";
 import { Line } from "react-chartjs-2";
 import {
   CircularProgress,
@@ -8,41 +8,40 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import SelectButton from "./SelectButton";
-import { chartDays } from "../config/data";
-import { CryptoState } from "../CryptoContext";
+import { chartDays } from "../../config/data";
+import { CryptoState } from "../../CryptoContext";
 
 const CoinInfo = ({ coin }) => {
   const [historicData, setHistoricData] = useState();
   const [days, setDays] = useState(1);
   const { currency } = CryptoState();
-  const [flag,setflag] = useState(false);
+  const [flag, setflag] = useState(false);
 
-  const styles = {
-    container: {
-      width: "75%",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      marginTop: 25,
-      padding: 40,
-      "@media (max-width:600px)": {
-        width: "100%",
-        marginTop: 0,
-        padding: 20,
-        paddingTop: 0,
-      },
-    },
+  const containerStyles = {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 2,
+    padding: 10,
   };
+
 
 
   const fetchHistoricData = async () => {
-    const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
-    setflag(true);
-    setHistoricData(data.prices);
-  };
+    try {
+      const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
+      setHistoricData(data.prices);
+      setflag(true);
+    } catch (error) {
+      console.error("Error fetching historic data:", error);
+      setflag(false);
+    }
+  };;
 
   console.log(coin);
+
 
   useEffect(() => {
     fetchHistoricData();
@@ -60,11 +59,11 @@ const CoinInfo = ({ coin }) => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <div sx={styles.container}>
+      <div style={containerStyles}>
         {!historicData | flag===false ? (
           <CircularProgress
             style={{ color: "gold" }}
-            size={250}
+            size={100}
             thickness={1}
           />
         ) : (
